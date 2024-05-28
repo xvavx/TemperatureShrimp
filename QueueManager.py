@@ -1,4 +1,5 @@
 from queue import Queue
 
-# Shared queue for producer and consumer
+# Shared queues for producers and consumer
+UrlQueue = Queue()
 MarkupQueue = Queue()

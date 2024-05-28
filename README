@@ -1,35 +1,10 @@
---------------25/05/2024--------------
-Welcome to my program, i tried my best to complete it.
-I hope it is successful with doing what it's asked.
-
-Pre requisites to be able to run the program
-You must have this packages installed in order to be able to run the program
-> pip install requests beautifulsoup4
-
->>>>>>>>>>>>How to run the program.<<<<<<<<<<<<<<
-First download the source code to your computer.
-Open the command prompt on windows, or the terminal on either mac or linux.
-On your cmd/terminal type "cd 'file path'" - eg. cd C:\Users\YOUR-USER\IdeaProjects\PythonChallengeVQ\
-Make sure cmd/terminal displays the correct directory.
-
-Type python main.py to execute the program.
-To run a unit test you must type python -m unittest TestConsumer.py
+--------------28/05/2024--------------
+In this new update, i managed to make the code work 4x faster.
+Made the gitignore as well
 
 >>>>>>>>>>>How to add more links<<<<<<<<<<<<
-
 You can open the urls.txt file and add as many urls as you wish.
 
 >>>>>>>>>>Difficulties and issues<<<<<<<<<<<
-
-The unittest is scuffed because i didn't quite grasp the idea behind those yet. I had to learn from scratch and i don't
-like the code i made.
-If possible i really would like to learn more about unittests, at the moment this was my first ever try at those.
-I have to admit that a lot of the unittest code is copied and was adapted to my code. that was a challenge by it self.
-
-Another difficulty was python in general, since i never really used python outside of somewhat basic operations, i had
-to learn about a lot of things. It's quite easy to learn, and i was very impressed with how little code i had to write
-to make the same things that could be done in 200 lines of java.
-
-This process took me around 8h to complete including the studying during the challenge.
-Stackoverflow was my closest friend, and some udemy teachers on youtube to help with the more basics of python.
-I hope to work more on python in general so i can grasp everything.
+Still couldn't understand the unit tests.
+Failed to make a TestProducer. kept crashing.

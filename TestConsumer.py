@@ -5,32 +5,29 @@ from QueueManager import MarkupQueue
 
 class TestConsumer(unittest.TestCase):
 
-    @patch('Consumer.PrettyPrinter.pprint') # Checks pprint without importing it
-    def test_consumer(self, mocked_printer_pprint):
-        # Create a Consumer instance
+    @patch('Consumer.logging.info')
+    def test_consumer(self, mockedLogInfo):
         consumer = Consumer(MarkupQueue)
 
         # Read URLs from urls.txt and put them into the queue
         with open('urls.txt', 'r') as file:
             urls = file.readlines()
             for url in urls:
-                MarkupQueue.put((url.strip(), '<a href="https://www.example.org">Example</a>')) # couldn' get this to work without a link
+                MarkupQueue.put((url.strip(), '<a href="https://www.wikipedia.org">Example</a>'))
 
-        # Stops the Queue
         MarkupQueue.put((None, None))
-
         consumer.run()
 
-        hyperlinks_called_with = mocked_printer_pprint.call_args[0][0]
+        hyperlinksCalled = [call[0][0] for call in mockedLogInfo.call_args_list]
 
-        print("\nTest: Consumer properly extracts and prints hyperlinks")
+        print("\nTest: Consumer properly extracts and logs hyperlinks")
         print("-" * 50)
         print("Expected hyperlinks:")
         for url in urls:
-            print("  -", url.strip())
+            print(f"  - {url.strip()}")
         print("\nActual hyperlinks:")
-        for link in hyperlinks_called_with:
-            print("  -", link)
+        for link in hyperlinksCalled:
+            print(f" {link}")
 
 if __name__ == "__main__":
     unittest.main()

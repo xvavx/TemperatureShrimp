@@ -3,49 +3,50 @@ import time
 import os
 from Producer import Producer
 from Consumer import Consumer
-from QueueManager import MarkupQueue
+from QueueManager import UrlQueue, MarkupQueue
 
-# Print the current working directory
-# print("Current working directory:", os.getcwd())
-
-def read_urls_from_file(fileName):
+def readUrlsFromFile(fileName):
     fileDir = os.path.dirname(os.path.abspath(__file__))
     filePath = os.path.join(fileDir, fileName)
 
-    # Read URLs from the file
     with open(filePath, 'r') as file:
         urls = [line.strip() for line in file if line.strip()]
     return urls
 
 def main():
     fileName = 'urls.txt'
-    urls = read_urls_from_file(fileName)
+    urls = readUrlsFromFile(fileName)
 
-    # Create producer threads
-    producerThreads = []
     for url in urls:
-        producer = Producer(url, MarkupQueue)
+        UrlQueue.put(url)
+
+    numProducers = 5  # Amount of producer threads
+    producer_threads = []
+    for _ in range(numProducers):
+        producer = Producer(UrlQueue, MarkupQueue)
         thread = threading.Thread(target=producer.run)
-        producerThreads.append(thread)
+        producer_threads.append(thread)
         thread.start()
 
-    # Create consumer thread
     consumer = Consumer(MarkupQueue)
-    consumerThread = threading.Thread(target=consumer.run)
-    consumerThread.start()
+    consumer_thread = threading.Thread(target=consumer.run)
+    consumer_thread.start()
 
-    # Wait for all producer threads to finish
-    for thread in producerThreads:
+    # Waits for all URLs to be processed
+    UrlQueue.join()
+
+    # Stops threads
+    for _ in range(numProducers):
+        UrlQueue.put(None)
+    for thread in producer_threads:
         thread.join()
 
-    # Stop consumer thread
+    # Wait for the consumer to finish
     MarkupQueue.put((None, None))
-    consumerThread.join()
+    consumer_thread.join()
 
 if __name__ == "__main__":
     start_time = time.time()
     main()
     end_time = time.time()
-    print(f"Total execution time: {end_time - start_time:.2f} seconds") # Output time
-
-
+    print(f"\nTotal execution time: {end_time - start_time:.2f} seconds")
